@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter" ng-controller="ToDoCtrl" class="platform-android platform-cordova platform-webview">
+    <ion-pane>
+      <ion-header-bar align-title="center" class="bar-calm">
+        <h1 class="title">ToDo items</h1>
+        <div class="buttons">
+          <button class="button button-icon ion-navicon"
+          ng-click="data.showReorder = !data.showReorder">
+          </button>
+        </div>
+        <div class="buttons">
+          <button class="button-icon" ng-click="addTask()">
+            <i class="ion-ios-plus icon"></i>
+          </button>
+        </div>
+      </ion-header-bar>
+      <div class="bar bar-subheader item-input-inset bar-light">
+          <label class="item-input-wrapper">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" ng-model="queryToDos" placeholder="Search">
+          </label>
+      </div>
+      <ion-content class="has-subheader">
+        <ion-list show-reorder="data.showReorder">
+          <ion-item ng-repeat="task in ToDoItems | filter: queryToDos track by $index" class="item-icon-left item-button-left" ng-class="{complete: task.completed}">
+              <p>{{task.name}}</p>
+              <button class="button button-icon"
+                  ng-click="task.completed = !task.completed">
+                  <i class="balanced" ng-class="task.completed ? 'ion-checkmark':'ion-close'"></i>
+              </button>
+              <ion-reorder-button class="ion-navicon" on-reorder="moveItem(task, $fromIndex, $toIndex)">
+              </ion-reorder-button>
+              <ion-option-button class="button-assertive" ng-click="deleteItem($toIndex)">Delete</ion-option-button>  
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
